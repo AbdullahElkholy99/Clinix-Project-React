@@ -1,15 +1,8 @@
-import './App.css'
-
-import { Button } from "@/components/ui/button";
-
+import "./App.css";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-
-  return (
-    <>
-        <Button>Click Me</Button>
-    </>
-  )
+  return <AppRoutes />;
 }
 
-export default App
+export default App;

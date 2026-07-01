@@ -1,0 +1,151 @@
+// /* ─── Dark mode ─── */
+// const html = document.documentElement;
+// function toggleDark() {
+//     html.classList.toggle('dark');
+//     document.getElementById('sunIcon').classList.toggle('hidden');
+//     document.getElementById('moonIcon').classList.toggle('hidden');
+//     localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+// }
+// if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+//     html.classList.add('dark');
+//     document.getElementById('sunIcon').classList.remove('hidden');
+//     document.getElementById('moonIcon').classList.add('hidden');
+// }
+
+// /* ─── Role selection ─── */
+// let selectedRole = '';
+// function selectRole(role) {
+//     selectedRole = role;
+//     document.querySelectorAll('.role-card').forEach(card => {
+//         card.classList.remove('selected');
+//         card.setAttribute('aria-checked', 'false');
+//         const dot = document.getElementById(card.dataset.role + 'Dot');
+//         if (dot) { dot.style.background = ''; dot.style.borderColor = ''; }
+//     });
+//     const card = document.querySelector(`[data-role="${role}"]`);
+//     if (card) {
+//         card.classList.add('selected');
+//         card.setAttribute('aria-checked', 'true');
+//     }
+//     const dot = document.getElementById(role + 'Dot');
+//     if (dot) { dot.style.background = 'linear-gradient(135deg,#0ea5e9,#0d9488)'; dot.style.borderColor = 'transparent'; }
+//     // Toggle doctor section
+//     const ds = document.getElementById('doctorSection');
+//     if (role === 'doctor') ds.classList.add('visible');
+//     else ds.classList.remove('visible');
+//     clearFieldError('role');
+// }
+// // Keyboard accessibility
+// document.querySelectorAll('.role-card').forEach(card => {
+//     card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectRole(card.dataset.role); } });
+// });
+
+// /* ─── Password visibility ─── */
+// function togglePw(inputId, iconId) {
+//     const input = document.getElementById(inputId);
+//     const eyeOff = `<path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/>`;
+//     const eyeOn = `<path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>`;
+//     input.type = input.type === 'password' ? 'text' : 'password';
+//     document.getElementById(iconId).innerHTML = input.type === 'password' ? eyeOn : eyeOff;
+// }
+
+// /* ─── Password strength ─── */
+// function updateStrength(pw) {
+//     let score = 0;
+//     if (pw.length >= 8) score++;
+//     if (/[A-Z]/.test(pw)) score++;
+//     if (/[0-9]/.test(pw)) score++;
+//     if (/[^A-Za-z0-9]/.test(pw)) score++;
+//     const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e'];
+//     const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+//     const bars = ['s1', 's2', 's3', 's4'];
+//     bars.forEach((id, i) => {
+//         const el = document.getElementById(id);
+//         el.style.width = i < score ? '100%' : '0%';
+//         el.style.background = colors[score - 1] || '#e2e8f0';
+//     });
+//     const lbl = document.getElementById('strengthLabel');
+//     if (pw.length === 0) { lbl.textContent = ''; return; }
+//     lbl.textContent = labels[score - 1] || 'Weak';
+//     lbl.style.color = colors[score - 1] || '#ef4444';
+// }
+
+// /* ─── Validation helpers ─── */
+// function showFieldError(fieldId, msg) {
+//     const el = document.getElementById(fieldId + 'Error');
+//     const txt = document.getElementById(fieldId + 'ErrorText');
+//     const input = document.getElementById(fieldId);
+//     el.classList.add('show');
+//     if (txt) txt.textContent = msg;
+//     if (input) { input.classList.add('border-red-400'); input.classList.remove('border-slate-200', 'dark:border-slate-700'); }
+// }
+// function clearFieldError(fieldId) {
+//     const el = document.getElementById(fieldId + 'Error');
+//     const input = document.getElementById(fieldId);
+//     if (el) el.classList.remove('show');
+//     if (input) input.classList.remove('border-red-400');
+// }
+// function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+ 
+
+// /* ─── Ripple ─── */
+// document.querySelectorAll('.ripple-btn').forEach(btn => {
+//     btn.addEventListener('click', function (e) {
+//         const r = document.createElement('span');
+//         r.className = 'ripple';
+//         const rect = this.getBoundingClientRect();
+//         const size = Math.max(rect.width, rect.height);
+//         r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - rect.left - size / 2}px;top:${e.clientY - rect.top - size / 2}px`;
+//         this.appendChild(r);
+//         setTimeout(() => r.remove(), 700);
+//     });
+// });
+
+// // function socialLogin(p) { showToast('info', `${p} Sign-up`, `Redirecting to ${p} authentication…`); }
+
+// // /* ─── Form submit ─── */
+// // function handleRegister(e) {
+// //     e.preventDefault();
+// //     let valid = true;
+
+// //     const fields = ['fullName', 'email', 'phone', 'password', 'confirmPassword'];
+// //     fields.forEach(f => clearFieldError(f));
+// //     clearFieldError('role');
+// //     document.getElementById('termsError').classList.remove('show');
+
+// //     const fullName = document.getElementById('fullName').value.trim();
+// //     const email = document.getElementById('email').value.trim();
+// //     const phone = document.getElementById('phone').value.trim();
+// //     const password = document.getElementById('password').value;
+// //     const confirm = document.getElementById('confirmPassword').value;
+// //     const terms = document.getElementById('terms').checked;
+
+// //     if (!fullName) { showFieldError('fullName', 'Full name is required'); valid = false; }
+// //     if (!email) { showFieldError('email', 'Email is required'); valid = false; }
+// //     else if (!validateEmail(email)) { showFieldError('email', 'Enter a valid email address'); valid = false; }
+// //     if (!phone) { showFieldError('phone', 'Phone number is required'); valid = false; }
+// //     if (!password) { showFieldError('password', 'Password is required'); valid = false; }
+// //     else if (password.length < 8) { showFieldError('password', 'Minimum 8 characters required'); valid = false; }
+// //     if (!confirm) { showFieldError('confirmPassword', 'Please confirm your password'); valid = false; }
+// //     else if (password !== confirm) { showFieldError('confirmPassword', 'Passwords do not match'); valid = false; }
+// //     if (!selectedRole) { document.getElementById('roleError').classList.add('show'); valid = false; }
+// //     if (!terms) { document.getElementById('termsError').classList.add('show'); valid = false; }
+
+// //     if (!valid) { showToast('error', 'Incomplete form', 'Please fix all highlighted fields.'); return; }
+
+// //     // Loading
+// //     const btn = document.getElementById('registerBtn');
+// //     const txt = document.getElementById('registerBtnText');
+// //     const spin = document.getElementById('registerSpinner');
+// //     const overlay = document.getElementById('loadingOverlay');
+// //     txt.textContent = 'Creating account…';
+// //     spin.classList.remove('hidden');
+// //     btn.disabled = true;
+// //     overlay.classList.remove('hidden'); overlay.classList.add('flex');
+
+// //     setTimeout(() => {
+// //         overlay.classList.add('hidden'); overlay.classList.remove('flex');
+// //         const success = document.getElementById('successOverlay');
+// //         success.classList.remove('hidden'); success.classList.add('flex');
+// //     }, 2500);
+// // }
