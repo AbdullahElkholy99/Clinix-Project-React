@@ -7,8 +7,10 @@ const emptyClinic = {
   phone: "",
   status: "Open",
 };
+import { useNavigate } from "react-router-dom";
 
 export default function DoctorClinic() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
   const [openModal, setOpenModal] = useState(false);
@@ -155,7 +157,12 @@ export default function DoctorClinic() {
               </div>
 
               <div className="mt-6 flex gap-2">
-                <button className="flex-1 rounded-lg bg-blue-600 py-2 text-white hover:bg-blue-700">
+                <button
+                  onClick={() =>
+                    navigate(`/doctorManageAppointments/${clinic.id}`)
+                  }
+                  className="flex-1 rounded-lg bg-blue-600 py-2 text-white hover:bg-blue-700"
+                >
                   <CalendarDays className="mx-auto" size={18} />
                 </button>
 
@@ -175,7 +182,9 @@ export default function DoctorClinic() {
                     setClinics((prev) => prev.filter((c) => c.id !== clinic.id))
                   }
                   className="flex-1 rounded-lg border border-red-200 py-2 text-red-600 hover:bg-red-50"
-                ></button>
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}

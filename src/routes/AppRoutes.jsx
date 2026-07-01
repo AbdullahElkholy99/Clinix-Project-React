@@ -5,6 +5,7 @@ import Register from "../Components/Account/Register/Register";
 import ConfirmEmail from "../Components/Account/ConfirmEmail/ConfirmEmail";
 import DoctorManageAppointments from "@/Components/DoctorComponents/Appointment/DoctorAppointment";
 import DoctorClinic from "@/Components/DoctorComponents/Clinic/DoctorClinic";
+import DoctorBooking from "@/Components/DoctorComponents/Booking/DoctorBooking";
 
 export default function AppRoutes() {
   return (
@@ -18,8 +19,9 @@ export default function AppRoutes() {
 
 
 
-      <Route path="/doctorManageAppointments" element={<DoctorManageAppointments />} />
+      <Route path="/doctorManageAppointments/:id" element={<DoctorManageAppointments />} />
       <Route path="/doctorClinic" element={<DoctorClinic />} />
+      <Route path="/doctorBooking" element={<DoctorBooking />} />
     </Routes>
   );
 }

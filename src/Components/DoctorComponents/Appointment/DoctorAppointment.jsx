@@ -14,6 +14,7 @@ import {
   FileText,
   AlertTriangle,
 } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 /* ---------------------------------------------------------------
    Data
@@ -171,6 +172,10 @@ const inputClass =
 --------------------------------------------------------------- */
 
 export default function DoctorManageAppointments() {
+  const { id } = useParams();
+
+  console.log("clinic id:", id);
+
   const [appointments, setAppointments] = useState(SEED_APPOINTMENTS);
   const [clinicFilter, setClinicFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
