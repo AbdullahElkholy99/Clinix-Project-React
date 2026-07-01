@@ -3,6 +3,9 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "../components/Account/Login/login";
 import Register from "../Components/Account/Register/Register";
 import ConfirmEmail from "../Components/Account/ConfirmEmail/ConfirmEmail";
+import DoctorManageAppointments from "@/Components/DoctorComponents/Appointment/DoctorAppointment";
+import DoctorClinic from "@/Components/DoctorComponents/Clinic/DoctorClinic";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -12,6 +15,11 @@ export default function AppRoutes() {
 
       <Route path="/register" element={<Register />} />
       <Route path="/confirmEmail" element={<ConfirmEmail />} />
+
+
+
+      <Route path="/doctorManageAppointments" element={<DoctorManageAppointments />} />
+      <Route path="/doctorClinic" element={<DoctorClinic />} />
     </Routes>
   );
 }
