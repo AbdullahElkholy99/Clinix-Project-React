@@ -17,11 +17,11 @@ export default function AppointmentHeader() {
 
         <div>
 
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
             Create Appointment
           </h1>
 
-          <p className="mt-1 text-slate-500">
+          <p className="mt-1 text-slate-500 dark:text-slate-400">
             Choose one of your clinics to create an available appointment.
           </p>
 

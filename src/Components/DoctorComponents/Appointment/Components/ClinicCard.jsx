@@ -1,4 +1,4 @@
-import { Building2, MapPin, CheckCircle2 } from "lucide-react";
+import { Building2, CheckCircle2, MapPin } from "lucide-react";
 
 import { Card, CardContent } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
@@ -18,14 +18,18 @@ export default function ClinicCard({
         duration-300
         hover:-translate-y-1
         hover:shadow-xl
+        bg-white
+        dark:bg-slate-900
         ${
           selected
-            ? "border-blue-600 shadow-lg ring-2 ring-blue-100"
-            : "border-slate-200 hover:border-blue-300"
+            ? "border-blue-600 ring-2 ring-blue-500/20 shadow-xl"
+            : "border-slate-200 dark:border-slate-800 hover:border-blue-400"
         }
       `}
     >
       <CardContent className="p-6">
+
+        {/* Header */}
 
         <div className="flex items-start justify-between">
 
@@ -35,7 +39,7 @@ export default function ClinicCard({
               ${
                 selected
                   ? "bg-blue-600 text-white"
-                  : "bg-blue-100 text-blue-600"
+                  : "bg-blue-100 text-blue-600 dark:bg-blue-900/30"
               }
             `}
           >
@@ -51,14 +55,36 @@ export default function ClinicCard({
 
         </div>
 
-        <h3 className="mt-6 text-xl font-bold text-slate-800">
+        {/* Clinic Name */}
+
+        <h3 className="mt-6 text-xl font-bold text-slate-900 dark:text-white">
           {clinic.clinicName}
         </h3>
 
-        <div className="mt-3 flex items-center gap-2 text-slate-500">
-          <MapPin size={16} />
-          <span>{clinic.address}</span>
+        {/* Address */}
+
+        <div className="mt-3 flex items-start gap-2 text-slate-500 dark:text-slate-400">
+
+          <MapPin
+            size={16}
+            className="mt-1 shrink-0"
+          />
+
+          <span>
+            {clinic.city} • {clinic.area} • {clinic.street}
+          </span>
+
         </div>
+
+        {/* Price */}
+
+        {clinic.price && (
+          <div className="mt-4 text-sm font-medium text-blue-600 dark:text-blue-400">
+            Consultation Price : {clinic.price} EGP
+          </div>
+        )}
+
+        {/* Button */}
 
         <Button
           className="mt-6 w-full"

@@ -1,14 +1,36 @@
-import { apiFetch } from "../../../../API/client.js"
+import { apiFetch } from "../../../../API/client";
 
 export const getDoctorClinics = async (doctorId) => {
-  return await apiFetch(
+  return apiFetch(
     `/DoctorClinics/GetAllDoctorClinic/${doctorId}`
   );
 };
 
 export const createAppointment = async (appointment) => {
-  return await apiFetch("/AppointmentAtClinics", {
+  const formData = new FormData();
+
+  formData.append(
+    "DoctorClinicId",
+    appointment.doctorClinicId
+  );
+
+  formData.append(
+    "Day",
+    appointment.day
+  );
+
+  formData.append(
+    "OpenAt",
+    appointment.openAt
+  );
+
+  formData.append(
+    "ClosedAt",
+    appointment.closedAt
+  );
+
+  return apiFetch("/AppointmentAtClinics", {
     method: "POST",
-    body: JSON.stringify(appointment),
+    body: formData,
   });
 };

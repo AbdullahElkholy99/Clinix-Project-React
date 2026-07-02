@@ -4,7 +4,12 @@ import { toast } from "sonner";
 import { DAYS, TIME_OPTIONS } from "../AppointmentData";
 
 import { Button } from "@/Components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/Components/ui/card";
 import { Label } from "@/Components/ui/label";
 
 import {
@@ -57,7 +62,7 @@ export default function AppointmentForm({
     }
 
     onSubmit({
-      doctorClinicId: selectedClinic.doctorClinicId,
+      doctorClinicId: selectedClinic.id,
       day: formData.day,
       openAt: formData.openAt,
       closedAt: formData.closedAt,
@@ -71,11 +76,11 @@ export default function AppointmentForm({
   };
 
   return (
-    <Card className="mt-10 shadow-lg border-0">
+    <Card className="mt-10 border border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900">
 
-      <CardHeader className="border-b bg-slate-50">
+      <CardHeader className="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
 
-        <CardTitle className="flex items-center gap-3">
+        <CardTitle className="flex items-center gap-3 text-slate-900 dark:text-white">
 
           <CalendarDays
             className="text-blue-600"
@@ -90,9 +95,7 @@ export default function AppointmentForm({
 
       <CardContent className="space-y-8 pt-8">
 
-        {/* Selected Clinic */}
-
-        <div className="flex items-center gap-4 rounded-xl bg-blue-50 p-4">
+        <div className="flex items-center gap-4 rounded-xl bg-blue-50 p-4 dark:bg-slate-800">
 
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white">
 
@@ -102,11 +105,11 @@ export default function AppointmentForm({
 
           <div>
 
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               Selected Clinic
             </p>
 
-            <h3 className="text-lg font-semibold text-slate-800">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               {selectedClinic.clinicName}
             </h3>
 
@@ -119,8 +122,6 @@ export default function AppointmentForm({
           className="space-y-6"
         >
 
-          {/* Day */}
-
           <div className="space-y-2">
 
             <Label>Day</Label>
@@ -131,7 +132,7 @@ export default function AppointmentForm({
                 updateField("day", value)
               }
             >
-              <SelectTrigger className="w-full h-11">
+              <SelectTrigger className="h-11 w-full">
                 <SelectValue placeholder="Select Working Day" />
               </SelectTrigger>
 
@@ -154,11 +155,7 @@ export default function AppointmentForm({
 
           </div>
 
-          {/* Time */}
-
           <div className="grid gap-6 md:grid-cols-2">
-
-            {/* Open */}
 
             <div className="space-y-2">
 
@@ -176,10 +173,8 @@ export default function AppointmentForm({
                   updateField("openAt", value)
                 }
               >
-                <SelectTrigger className="w-full h-11">
-
+                <SelectTrigger className="h-11 w-full">
                   <SelectValue placeholder="Select Opening Time" />
-
                 </SelectTrigger>
 
                 <SelectContent>
@@ -187,10 +182,10 @@ export default function AppointmentForm({
                   {TIME_OPTIONS.map((time) => (
 
                     <SelectItem
-                      key={time}
-                      value={time}
+                      key={time.value}
+                      value={time.value}
                     >
-                      {time}
+                      {time.label}
                     </SelectItem>
 
                   ))}
@@ -200,8 +195,6 @@ export default function AppointmentForm({
               </Select>
 
             </div>
-
-            {/* Close */}
 
             <div className="space-y-2">
 
@@ -219,10 +212,8 @@ export default function AppointmentForm({
                   updateField("closedAt", value)
                 }
               >
-                <SelectTrigger className="w-full h-11">
-
+                <SelectTrigger className="h-11 w-full">
                   <SelectValue placeholder="Select Closing Time" />
-
                 </SelectTrigger>
 
                 <SelectContent>
@@ -230,10 +221,10 @@ export default function AppointmentForm({
                   {TIME_OPTIONS.map((time) => (
 
                     <SelectItem
-                      key={time}
-                      value={time}
+                      key={time.value}
+                      value={time.value}
                     >
-                      {time}
+                      {time.label}
                     </SelectItem>
 
                   ))}

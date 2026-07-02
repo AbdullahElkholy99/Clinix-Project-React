@@ -11,12 +11,9 @@ export default function ClinicGrid({
       {clinics.map((clinic) => (
 
         <ClinicCard
-          key={clinic.doctorClinicId}
+          key={clinic.id}
           clinic={clinic}
-          selected={
-            selectedClinic?.doctorClinicId ===
-            clinic.doctorClinicId
-          }
+          selected={selectedClinic?.id === clinic.id}
           onSelect={onSelectClinic}
         />
 
