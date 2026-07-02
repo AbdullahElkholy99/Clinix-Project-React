@@ -1,7 +1,7 @@
 import "./App.css";
 import { useLocation } from "react-router-dom";
 
-import Navbar from "./Components/HomeComponents/NavBar/Navbar";
+import Navbar from "./Components/DoctorComponents/Bases/NavBar/Navbar";
 import Footer from "./Components/HomeComponents/Footer/Footer";
 import AppRoutes from "./routes/AppRoutes";
 
@@ -24,3 +24,8 @@ function App() {
 }
 
 export default App;
+
+
+/*
+abdullah@gmail.com    abdullah@gmail.comA12
+*/

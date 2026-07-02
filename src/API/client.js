@@ -1,6 +1,9 @@
 import { API_BASE_URL } from "../config";
+import { getToken } from "../Components/Account/Services/tokenService";
 
 export async function apiFetch(endpoint, options = {}) {
+  const token = getToken();
+
   const headers = {
     ...options.headers,
   };
@@ -9,11 +12,16 @@ export async function apiFetch(endpoint, options = {}) {
     headers["Content-Type"] = "application/json";
   }
 
+  // Add Authorization Header
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     headers,
   });
-  console.log("response : ", response)
+
   const contentType = response.headers.get("content-type");
 
   let data;

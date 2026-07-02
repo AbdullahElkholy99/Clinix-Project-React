@@ -64,7 +64,7 @@ export default function DoctorClinic() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-11/12 px-6 py-8">
         {/* Header */}
 
         <div className="mb-8 flex items-center justify-between">

@@ -8,12 +8,20 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-
+import { NavLink } from "react-router-dom";
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  {
+    name: "Dashboard",
+    href: "/doctorDashboard",
+  },
+  {
+    name: "Clinic",
+    href: "/doctorClinic",
+  },
+  {
+    name: "Booking",
+    href: "/doctorBooking",
+  },
 ];
 
 function classNames(...classes) {
@@ -58,19 +66,20 @@ export default function Navbar() {
             <div className="hidden sm:ml-8 sm:block">
               <div className="flex space-x-2">
                 {navigation.map((item) => (
-                  <a
+                  <NavLink
                     key={item.name}
-                    href={item.href}
-                    aria-current={item.current ? "page" : undefined}
-                    className={classNames(
-                      item.current
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-slate-600 hover:bg-slate-100 hover:text-blue-600",
-                      "rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200",
-                    )}
+                    to={item.href}
+                    className={({ isActive }) =>
+                      classNames(
+                        isActive
+                          ? "bg-blue-50 text-blue-600"
+                          : "text-slate-600 hover:bg-slate-100 hover:text-blue-600",
+                        "rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200",
+                      )
+                    }
                   >
                     {item.name}
-                  </a>
+                  </NavLink>
                 ))}
               </div>
             </div>
@@ -142,15 +151,16 @@ export default function Navbar() {
           {navigation.map((item) => (
             <DisclosureButton
               key={item.name}
-              as="a"
-              href={item.href}
-              aria-current={item.current ? "page" : undefined}
-              className={classNames(
-                item.current
-                  ? "bg-blue-50 text-blue-600"
-                  : "text-slate-700 hover:bg-slate-100 hover:text-blue-600",
-                "block rounded-lg px-4 py-2 text-base font-medium transition-colors",
-              )}
+              as={NavLink}
+              to={item.href}
+              className={({ isActive }) =>
+                classNames(
+                  isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-slate-700 hover:bg-slate-100 hover:text-blue-600",
+                  "block rounded-lg px-4 py-2 text-base font-medium transition-colors",
+                )
+              }
             >
               {item.name}
             </DisclosureButton>
