@@ -2,29 +2,20 @@ import {
   CalendarCheck,
   Clock3,
   BadgeCheck,
-  CheckCircle2,
-  XCircle,
 } from "lucide-react";
 
 export default function BookingStats({ bookings }) {
   const total = bookings.length;
 
   const pending = bookings.filter(
-    (b) => b.status === "Pending"
+    (b) => b.isAccepted === false
   ).length;
 
   const confirmed = bookings.filter(
-    (b) => b.status === "Confirmed"
+    (b) => b.isAccepted === true
   ).length;
 
-  const completed = bookings.filter(
-    (b) => b.status === "Completed"
-  ).length;
-
-  const cancelled = bookings.filter(
-    (b) => b.status === "Cancelled"
-  ).length;
-
+ 
   const stats = [
     {
       title: "Total",
@@ -50,26 +41,11 @@ export default function BookingStats({ bookings }) {
       iconColor: "text-sky-600",
       border: "border-sky-100",
     },
-    {
-      title: "Completed",
-      value: completed,
-      icon: CheckCircle2,
-      bg: "bg-green-50",
-      iconColor: "text-green-600",
-      border: "border-green-100",
-    },
-    {
-      title: "Cancelled",
-      value: cancelled,
-      icon: XCircle,
-      bg: "bg-red-50",
-      iconColor: "text-red-600",
-      border: "border-red-100",
-    },
+   
   ];
 
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5 mb-8">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
       {stats.map((item) => {
         const Icon = item.icon;
 

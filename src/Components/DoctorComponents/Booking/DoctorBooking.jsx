@@ -47,8 +47,9 @@ export default function DoctorBooking() {
         .toLowerCase()
         .includes(search.toLowerCase());
 
+        console.log("type of status:", typeof status);
       const matchesStatus =
-        status === "" ? true : booking.isAccepted === (status === "true");
+        status === "" ? true : booking.isAccepted === (status === true);
 
       const matchesClinic = true;
       // clinic === "" || booking.clinicName === clinic;
@@ -60,7 +61,7 @@ export default function DoctorBooking() {
   // Confirm
   const handleConfirm = async (id) => {
      const response = await confrimBooking();
-
+    console.log("Confirm response:", response);
     setBookings((prev) =>
       prev.map((b) =>
         b.id === id
@@ -85,7 +86,7 @@ export default function DoctorBooking() {
   // Cancel
   const handleCancel = async (id) => {
      const response = await cancelBooking();
-
+    console.log("Cancel response:", response);
     setBookings((prev) =>
       prev.map((b) =>
         b.id === id

@@ -9,6 +9,12 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
+
+import { logout } from "../../../Account/Services/logoutService";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const navigation = [
   {
     name: "Dashboard",
@@ -17,6 +23,10 @@ const navigation = [
   {
     name: "Clinic",
     href: "/doctorClinic",
+  },
+  {
+    name: "Appointments",
+    href: "/doctorManageAppointments",
   },
   {
     name: "Booking",
@@ -29,6 +39,50 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const [loggingOut, setLoggingOut] = useState(false);
+  const navigator = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      setLoggingOut(true);
+
+      const response = await logout();
+      console.log("Logout response:", response); // Log the response for debugging
+      if (response === "Logged out successfully") {
+        toast.success("Logged out successfully!", {
+          position: "top-right",
+          style: {
+            backgroundColor: "#4CAF50",
+            color: "white",
+          },
+        });
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("theme");
+        navigator("/login");
+      } else {
+        toast.error("Logout failed. Please try again.", {
+          position: "top-right",
+          style: {
+            backgroundColor: "#f44336",
+            color: "white",
+          },
+        });
+      }
+    } catch (error) {
+      toast.error("Logout failed. Please try sssssssagain.", {
+        position: "top-right",
+        style: {
+          backgroundColor: "#f44336",
+          color: "white",
+        },
+      });
+      console.error("Logout error:", error); // Log the error for debugging
+    } finally {
+      setLoggingOut(false);
+    }
+  };
+
   return (
     <Disclosure
       as="nav"
@@ -132,12 +186,22 @@ export default function Navbar() {
                 <div className="my-2 border-t border-slate-200" />
 
                 <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-red-600 transition hover:bg-red-50"
-                  >
-                    Sign Out
-                  </a>
+                  <MenuItem className="p-0">
+                    <button
+                      onClick={handleLogout}
+                      disabled={loggingOut}
+                      className="flex w-full items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      {loggingOut ? (
+                        <>
+                          <Loader2 size={16} className="animate-spin" />
+                          <span>Logging out...</span>
+                        </>
+                      ) : (
+                        "Logout"
+                      )}
+                    </button>
+                  </MenuItem>
                 </MenuItem>
               </MenuItems>
             </Menu>

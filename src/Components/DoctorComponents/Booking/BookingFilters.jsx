@@ -10,7 +10,6 @@ export default function BookingFilters({
   clinics = [],
   onClear,
 }) {
-  console.log("Clinics in BookingFilters:", clinics);
   return (
     <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="grid gap-4 lg:grid-cols-4">
@@ -82,9 +81,9 @@ export default function BookingFilters({
         </button>
 
         <button
-          onClick={() => setStatus("Pending")}
+          onClick={() => setStatus(false)}
           className={`rounded-full px-4 py-2 text-sm transition ${
-            status === "Pending"
+            status === false
               ? "bg-yellow-500 text-white"
               : "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
           }`}
@@ -93,9 +92,9 @@ export default function BookingFilters({
         </button>
 
         <button
-          onClick={() => setStatus("Confirmed")}
+          onClick={() => setStatus(true)}
           className={`rounded-full px-4 py-2 text-sm transition ${
-            status === "Confirmed"
+            status === true
               ? "bg-sky-600 text-white"
               : "bg-sky-100 text-sky-700 hover:bg-sky-200"
           }`}
@@ -103,27 +102,6 @@ export default function BookingFilters({
           Confirmed
         </button>
 
-        <button
-          onClick={() => setStatus("Completed")}
-          className={`rounded-full px-4 py-2 text-sm transition ${
-            status === "Completed"
-              ? "bg-green-600 text-white"
-              : "bg-green-100 text-green-700 hover:bg-green-200"
-          }`}
-        >
-          Completed
-        </button>
-
-        <button
-          onClick={() => setStatus("Cancelled")}
-          className={`rounded-full px-4 py-2 text-sm transition ${
-            status === "Cancelled"
-              ? "bg-red-600 text-white"
-              : "bg-red-100 text-red-700 hover:bg-red-200"
-          }`}
-        >
-          Cancelled
-        </button>
       </div>
     </div>
   );
