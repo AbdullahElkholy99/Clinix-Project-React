@@ -3,8 +3,10 @@ import DashboardStats from "./DashboardStats";
 import AppointmentTable from "./AppointmentTable";
 import QuickActions from "./QuickActions";
 import Notifications from "./Notifications";
+import { useNavigate } from "react-router-dom";
 
 export default function DoctorDashboard() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto max-w-11/12 px-6 py-8">
@@ -30,7 +32,9 @@ export default function DoctorDashboard() {
               Today's Schedule
             </button>
 
-            <button className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-medium text-white transition hover:bg-blue-700">
+            <button 
+              onClick={() => navigate("/doctorManageAppointments")}
+              className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-medium text-white transition hover:bg-blue-700">
               <Plus size={18} />
               New Appointment
             </button>
