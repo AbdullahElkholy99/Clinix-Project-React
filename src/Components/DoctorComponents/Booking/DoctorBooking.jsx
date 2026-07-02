@@ -1,24 +1,36 @@
 import { useMemo, useState } from "react";
 import { CalendarDays } from "lucide-react";
 
-import bookingData from "./bookingData";
+// import bookingData from "./bookingData";
 import BookingStats from "./BookingStats";
 import BookingFilters from "./BookingFilters";
 import BookingCard from "./BookingCard";
 import BookingModal from "./BookingModal";
 import { useEffect } from "react";
-import { getAllBooking } from "../Services/doctorBooking";
+import { getAllBooking,cancelBooking,confrimBooking } from "../Services/doctorBooking";
+import { getAllClinics } from "../Services/clinic-service";
 
 export default function DoctorBooking() {
-  const [bookings, setBookings] = useState(bookingData);
+  const [bookings, setBookings] = useState([]);
+  // Clinics List
+  const [clinics, setClinics] = useState([]);
 
+  //done 
   useEffect(() => {
     // Fetch bookings from API
     const fetchBookings = async () => {
-      const bookings = await getAllBooking();
-      console.log("fetchBookings", bookings);
+      const response = await getAllBooking();
+      console.log("Bookings:", response);
+      setBookings(response);
     };
+    const fetchClinics = async () => {
+      const response = await getAllClinics();
+      setClinics(response);
+      console.log("Clinics:", response);
+    };
+
     fetchBookings();
+    fetchClinics();
   }, []);
 
   const [search, setSearch] = useState("");
@@ -28,44 +40,33 @@ export default function DoctorBooking() {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
-  // Clinics List
-  const clinics = useMemo(() => {
-    return [
-      ...new Map(
-        bookings.map((b) => [
-          b.clinicId,
-          {
-            id: b.clinicId,
-            name: b.clinicName,
-          },
-        ]),
-      ).values(),
-    ];
-  }, [bookings]);
-
-  // Filter
+  // Filter --- done
   const filteredBookings = useMemo(() => {
     return bookings.filter((booking) => {
       const matchesSearch = booking.patientName
         .toLowerCase()
         .includes(search.toLowerCase());
 
-      const matchesStatus = status === "" || booking.status === status;
+      const matchesStatus =
+        status === "" ? true : booking.isAccepted === (status === "true");
 
-      const matchesClinic = clinic === "" || booking.clinicName === clinic;
+      const matchesClinic = true;
+      // clinic === "" || booking.clinicName === clinic;
 
       return matchesSearch && matchesStatus && matchesClinic;
     });
   }, [bookings, search, status, clinic]);
-
+  
   // Confirm
-  const handleConfirm = (id) => {
+  const handleConfirm = async (id) => {
+     const response = await confrimBooking();
+
     setBookings((prev) =>
       prev.map((b) =>
         b.id === id
           ? {
               ...b,
-              status: "Confirmed",
+              isAccepted: true,
             }
           : b,
       ),
@@ -75,43 +76,22 @@ export default function DoctorBooking() {
       prev
         ? {
             ...prev,
-            status: "Confirmed",
-          }
-        : null,
-    );
-  };
-
-  // Complete
-  const handleComplete = (id) => {
-    setBookings((prev) =>
-      prev.map((b) =>
-        b.id === id
-          ? {
-              ...b,
-              status: "Completed",
-            }
-          : b,
-      ),
-    );
-
-    setSelectedBooking((prev) =>
-      prev
-        ? {
-            ...prev,
-            status: "Completed",
+              isAccepted: true,
           }
         : null,
     );
   };
 
   // Cancel
-  const handleCancel = (id) => {
+  const handleCancel = async (id) => {
+     const response = await cancelBooking();
+
     setBookings((prev) =>
       prev.map((b) =>
         b.id === id
           ? {
               ...b,
-              status: "Cancelled",
+              isAccepted: false,
             }
           : b,
       ),
@@ -121,7 +101,7 @@ export default function DoctorBooking() {
       prev
         ? {
             ...prev,
-            status: "Cancelled",
+              isAccepted: false,
           }
         : null,
     );
@@ -133,7 +113,7 @@ export default function DoctorBooking() {
     setOpenModal(true);
   };
 
-  // Clear Filters
+  // Clear Filters -- done
   const clearFilters = () => {
     setSearch("");
     setStatus("");
@@ -186,14 +166,12 @@ export default function DoctorBooking() {
         />
 
         {/* Booking Cards */}
-
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filteredBookings.map((booking) => (
             <BookingCard
               key={booking.id}
               booking={booking}
               onConfirm={handleConfirm}
-              onComplete={handleComplete}
               onCancel={handleCancel}
               onView={handleView}
             />
@@ -231,7 +209,6 @@ export default function DoctorBooking() {
             setSelectedBooking(null);
           }}
           onConfirm={handleConfirm}
-          onComplete={handleComplete}
           onCancel={handleCancel}
         />
       </div>

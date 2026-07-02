@@ -10,6 +10,7 @@ export default function BookingFilters({
   clinics = [],
   onClear,
 }) {
+  console.log("Clinics in BookingFilters:", clinics);
   return (
     <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="grid gap-4 lg:grid-cols-4">
@@ -25,7 +26,7 @@ export default function BookingFilters({
             placeholder="Search patient..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-4 outline-none transition focus:border-blue-500"
+            className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-4 outline-none transition focus:border-blue-500 text-slate-600"
           />
         </div>
 
@@ -33,13 +34,15 @@ export default function BookingFilters({
         <select
           value={clinic}
           onChange={(e) => setClinic(e.target.value)}
-          className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+          className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500 text-slate-600"
         >
-          <option value="">All Clinics</option>
+          <option value="" className="text-slate-500">
+            All Clinics
+          </option>
 
           {clinics.map((c) => (
-            <option key={c.id} value={c.name}>
-              {c.name}
+            <option key={c.id} value={c.clinicName} className="text-slate-600">
+              {c.clinicName} - {c.city} - {c.area}
             </option>
           ))}
         </select>
@@ -48,13 +51,11 @@ export default function BookingFilters({
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+          className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500 text-slate-600"
         >
           <option value="">All Status</option>
-          <option value="Pending">Pending</option>
-          <option value="Confirmed">Confirmed</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
+          <option value={false}>Pending</option>
+          <option value={true}>Confirmed</option>
         </select>
 
         {/* Clear */}

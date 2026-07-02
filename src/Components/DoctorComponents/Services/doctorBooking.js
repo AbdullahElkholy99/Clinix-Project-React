@@ -12,3 +12,20 @@ export async function getAllBooking() {
     });
 
 }
+
+export async function confrimBooking(id) {
+   
+    return apiFetch(`/PatientBookingDoctorAtClinics/get-all-booking-at-clinics/${id}`, {
+        method: "GET"
+    });
+
+}
+export async function cancelBooking(id) {
+    const doctorId = GetUserId();
+    if (!doctorId) return null;
+
+    return apiFetch(`/PatientBookingDoctorAtClinics/gcancel/${id}`, {
+        method: "GET"
+    });
+
+}

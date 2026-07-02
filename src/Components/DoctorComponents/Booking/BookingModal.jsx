@@ -1,14 +1,12 @@
 import {
   X,
-  User,
-  Phone,
+  Stethoscope,
   CalendarDays,
   Clock3,
-  Building2,
-  FileText,
   ClipboardList,
   CheckCircle2,
   XCircle,
+  DollarSign,
 } from "lucide-react";
 
 const statusStyles = {
@@ -23,7 +21,6 @@ export default function BookingModal({
   booking,
   onClose,
   onConfirm,
-  onComplete,
   onCancel,
 }) {
   if (!open || !booking) return null;
@@ -38,9 +35,7 @@ export default function BookingModal({
               Appointment Details
             </h2>
 
-            <p className="text-sm text-slate-500">
-              Appointment #{booking.id}
-            </p>
+            <p className="text-sm text-slate-500">Appointment #{booking.id}</p>
           </div>
 
           <button
@@ -56,80 +51,63 @@ export default function BookingModal({
           {/* Patient */}
           <div className="flex items-center gap-5">
             <img
-              src={booking.patientImage}
+              src={
+                // booking.filePath ||
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                  booking.patientName,
+                )}&background=2563eb&color=fff`
+              }
               alt={booking.patientName}
               className="h-24 w-24 rounded-full border object-cover"
             />
 
             <div className="flex-1">
-              <h3 className="text-xl font-bold">
-                {booking.patientName}
-              </h3>
-
-              <p className="text-slate-500">
-                {booking.age} Years • {booking.gender}
-              </p>
+              <h3 className="text-xl font-bold">{booking.patientName}</h3>
 
               <span
-                className={`mt-3 inline-block rounded-full px-3 py-1 text-sm font-semibold ${
-                  statusStyles[booking.status]
+                className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                  statusStyles[booking.isAccepted ? "Confirmed" : "Pending"]
                 }`}
               >
-                {booking.status}
+                {booking.isAccepted ? "Confirmed" : "Pending"}
               </span>
             </div>
           </div>
 
           {/* Grid */}
           <div className="grid gap-6 md:grid-cols-2">
-            <InfoCard
-              icon={<Phone size={18} />}
-              title="Phone"
-              value={booking.phone}
-            />
 
             <InfoCard
-              icon={<Building2 size={18} />}
-              title="Clinic"
-              value={booking.clinicName}
+              icon={<Stethoscope size={18} />}
+              title="Specialization"
+              value={booking.nameEN + " - " + booking.nameAR}
             />
 
             <InfoCard
               icon={<CalendarDays size={18} />}
-              title="Date"
-              value={booking.date}
+              title="Day"
+              value={booking.day}
             />
 
             <InfoCard
               icon={<Clock3 size={18} />}
-              title="Time"
-              value={booking.time}
+              title="Time Slot"
+              value={booking.openAt + " - " + booking.closedAt}
+            />
+
+            <InfoCard
+              icon={<DollarSign size={18} />}
+              title="Total Price"
+              value={booking.totalPrice}
             />
           </div>
 
           {/* Reason */}
-          <Section
-            icon={<ClipboardList size={18} />}
-            title="Reason"
-          >
-            {booking.reason}
+          <Section icon={<ClipboardList size={18} />} title="Reason">
+            {booking.medicalCondition || "No medical condition provided."}
           </Section>
 
-          {/* Symptoms */}
-          <Section
-            icon={<User size={18} />}
-            title="Symptoms"
-          >
-            {booking.symptoms || "No symptoms provided."}
-          </Section>
-
-          {/* Notes */}
-          <Section
-            icon={<FileText size={18} />}
-            title="Doctor Notes"
-          >
-            {booking.notes || "No notes."}
-          </Section>
+ 
         </div>
 
         {/* Footer */}
@@ -147,10 +125,10 @@ export default function BookingModal({
             </button>
           )}
 
-          {booking.status === "Confirmed" && (
+          {booking.status === true && (
             <button
               onClick={() => {
-                onComplete(booking.id);
+                onConfirm(booking.id);
                 onClose();
               }}
               className="flex items-center gap-2 rounded-xl bg-green-600 px-5 py-3 text-white hover:bg-green-700"
@@ -160,19 +138,18 @@ export default function BookingModal({
             </button>
           )}
 
-          {booking.status !== "Completed" &&
-            booking.status !== "Cancelled" && (
-              <button
-                onClick={() => {
-                  onCancel(booking.id);
-                  onClose();
-                }}
-                className="flex items-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-white hover:bg-red-700"
-              >
-                <XCircle size={18} />
-                Cancel
-              </button>
-            )}
+          {booking.status !== true (
+            <button
+              onClick={() => {
+                onCancel(booking.id);
+                onClose();
+              }}
+              className="flex items-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-white hover:bg-red-700"
+            >
+              <XCircle size={18} />
+              Cancel
+            </button>
+          )}
 
           <button
             onClick={onClose}

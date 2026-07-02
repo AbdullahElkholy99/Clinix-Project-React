@@ -1,12 +1,12 @@
 import {
   CalendarDays,
   Clock3,
-  Phone,
-  Building2,
   FileText,
   CheckCircle2,
   XCircle,
   Eye,
+  DollarSign,
+  Stethoscope,
 } from "lucide-react";
 
 const statusStyles = {
@@ -19,7 +19,6 @@ const statusStyles = {
 export default function BookingCard({
   booking,
   onConfirm,
-  onComplete,
   onCancel,
   onView,
 }) {
@@ -29,7 +28,12 @@ export default function BookingCard({
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-4">
           <img
-            src={booking.patientImage}
+            src={
+              // booking.filePath ||
+              `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                booking.patientName,
+              )}&background=2563eb&color=fff`
+            }
             alt={booking.patientName}
             className="h-16 w-16 rounded-full border object-cover"
           />
@@ -38,67 +42,70 @@ export default function BookingCard({
             <h2 className="text-lg font-bold text-slate-800">
               {booking.patientName}
             </h2>
-
-            <p className="text-sm text-slate-500">
-              {booking.age} Years • {booking.gender}
-            </p>
+           
           </div>
         </div>
 
         <span
           className={`rounded-full px-3 py-1 text-xs font-semibold ${
-            statusStyles[booking.status]
+            statusStyles[booking.isAccepted ? "Confirmed" : "Pending"]
           }`}
         >
-          {booking.status}
+          {booking.isAccepted ? "Confirmed" : "Pending"}
         </span>
       </div>
 
       {/* Details */}
-      <div className="mt-6 space-y-3 text-sm">
+      <div className="mt-6 space-y-4 text-sm">
         <div className="flex items-center gap-3">
-          <Building2 size={18} className="text-blue-600" />
-          <span className="text-black">{booking.clinicName}</span>
+          <Stethoscope size={18} className="text-blue-600" />
+          <span className="font-medium text-slate-700">
+            <b>Specialization: </b> {booking.nameEN || booking.nameAR}
+          </span>
         </div>
 
         <div className="flex items-center gap-3">
           <CalendarDays size={18} className="text-blue-600" />
-          <span className="text-black">{booking.date}</span>
+          <span className="text-slate-600">
+           <b>Day: </b> {booking.day}
+          </span>
         </div>
 
         <div className="flex items-center gap-3">
           <Clock3 size={18} className="text-blue-600" />
-          <span className="text-black">{booking.time}</span>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Phone size={18} className="text-blue-600" />
-          <span className="text-black">{booking.phone}</span>
+          <span className="text-slate-600">
+           <b>Time: </b> {booking.openAt} - {booking.closedAt}
+          </span>
         </div>
 
         <div className="flex items-start gap-3">
-          <FileText
-            size={18}
-            className="mt-0.5 text-blue-600"
-          />
+          <FileText size={18} className="mt-1 text-blue-600" />
 
           <div>
-            <p className="font-medium text-slate-700">
-              {booking.reason}
-            </p>
+            <p className="font-medium text-slate-700">Medical Condition</p>
 
             <p className="text-slate-500">
-              {booking.symptoms}
+              {booking.medicalCondition || "No medical condition provided"}
             </p>
           </div>
         </div>
+
+        <div className="flex items-center gap-3">
+          <DollarSign size={18} className="text-green-600" />
+
+          <span className="font-semibold text-green-700">
+            <b>Total Price: </b>{booking.totalPrice} EGP
+          </span>
+        </div>
+
+       
       </div>
 
       {/* Actions */}
       <div className="mt-6 flex flex-wrap gap-2">
-        {booking.status === "Pending" && (
+        {!booking.isAccepted && (
           <button
-            onClick={() => onConfirm(booking.id)}
+            onClick={() => onConfirm(booking.bookingId)}
             className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
           >
             <CheckCircle2 size={18} />
@@ -106,30 +113,17 @@ export default function BookingCard({
           </button>
         )}
 
-        {booking.status === "Confirmed" && (
-          <button
-            onClick={() => onComplete(booking.id)}
-            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white transition hover:bg-green-700"
-          >
-            <CheckCircle2 size={18} />
-            Complete
-          </button>
-        )}
-
-        {booking.status !== "Cancelled" &&
-          booking.status !== "Completed" && (
-            <button
-              onClick={() => onCancel(booking.id)}
-              className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-white transition hover:bg-red-700"
-            >
-              <XCircle size={18} />
-              Cancel
-            </button>
-          )}
+        <button
+          onClick={() => onCancel(booking.bookingId)}
+          className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-white transition hover:bg-red-700"
+        >
+          <XCircle size={18} />
+          Cancel
+        </button>
 
         <button
           onClick={() => onView(booking)}
-          className="ml-auto flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 transition hover:bg-slate-100"
+          className="text-slate-600 ml-auto flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 transition hover:bg-slate-100"
         >
           <Eye size={18} />
           Details
