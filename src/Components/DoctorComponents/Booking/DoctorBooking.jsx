@@ -6,9 +6,20 @@ import BookingStats from "./BookingStats";
 import BookingFilters from "./BookingFilters";
 import BookingCard from "./BookingCard";
 import BookingModal from "./BookingModal";
+import { useEffect } from "react";
+import { getAllBooking } from "../Services/doctorBooking";
 
 export default function DoctorBooking() {
   const [bookings, setBookings] = useState(bookingData);
+
+  useEffect(() => {
+    // Fetch bookings from API
+    const fetchBookings = async () => {
+      const bookings = await getAllBooking();
+      console.log("fetchBookings", bookings);
+    };
+    fetchBookings();
+  }, []);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -19,36 +30,31 @@ export default function DoctorBooking() {
 
   // Clinics List
   const clinics = useMemo(() => {
-    return [...new Map(
-      bookings.map((b) => [
-        b.clinicId,
-        {
-          id: b.clinicId,
-          name: b.clinicName,
-        },
-      ])
-    ).values()];
+    return [
+      ...new Map(
+        bookings.map((b) => [
+          b.clinicId,
+          {
+            id: b.clinicId,
+            name: b.clinicName,
+          },
+        ]),
+      ).values(),
+    ];
   }, [bookings]);
 
   // Filter
   const filteredBookings = useMemo(() => {
     return bookings.filter((booking) => {
-      const matchesSearch =
-        booking.patientName
-          .toLowerCase()
-          .includes(search.toLowerCase());
+      const matchesSearch = booking.patientName
+        .toLowerCase()
+        .includes(search.toLowerCase());
 
-      const matchesStatus =
-        status === "" || booking.status === status;
+      const matchesStatus = status === "" || booking.status === status;
 
-      const matchesClinic =
-        clinic === "" || booking.clinicName === clinic;
+      const matchesClinic = clinic === "" || booking.clinicName === clinic;
 
-      return (
-        matchesSearch &&
-        matchesStatus &&
-        matchesClinic
-      );
+      return matchesSearch && matchesStatus && matchesClinic;
     });
   }, [bookings, search, status, clinic]);
 
@@ -61,8 +67,8 @@ export default function DoctorBooking() {
               ...b,
               status: "Confirmed",
             }
-          : b
-      )
+          : b,
+      ),
     );
 
     setSelectedBooking((prev) =>
@@ -71,7 +77,7 @@ export default function DoctorBooking() {
             ...prev,
             status: "Confirmed",
           }
-        : null
+        : null,
     );
   };
 
@@ -84,8 +90,8 @@ export default function DoctorBooking() {
               ...b,
               status: "Completed",
             }
-          : b
-      )
+          : b,
+      ),
     );
 
     setSelectedBooking((prev) =>
@@ -94,7 +100,7 @@ export default function DoctorBooking() {
             ...prev,
             status: "Completed",
           }
-        : null
+        : null,
     );
   };
 
@@ -107,8 +113,8 @@ export default function DoctorBooking() {
               ...b,
               status: "Cancelled",
             }
-          : b
-      )
+          : b,
+      ),
     );
 
     setSelectedBooking((prev) =>
@@ -117,7 +123,7 @@ export default function DoctorBooking() {
             ...prev,
             status: "Cancelled",
           }
-        : null
+        : null,
     );
   };
 
@@ -136,10 +142,8 @@ export default function DoctorBooking() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="mx-auto max-w-7xl px-6 py-8">
-
+      <div className="mx-auto max-w-11/12 px-6 py-8">
         {/* Header */}
-
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-slate-800">
@@ -156,13 +160,9 @@ export default function DoctorBooking() {
               <CalendarDays />
 
               <div>
-                <p className="text-xs text-blue-100">
-                  Today's Bookings
-                </p>
+                <p className="text-xs text-blue-100">Today's Bookings</p>
 
-                <h3 className="text-2xl font-bold">
-                  {bookings.length}
-                </h3>
+                <h3 className="text-2xl font-bold">{bookings.length}</h3>
               </div>
             </div>
           </div>
@@ -198,17 +198,12 @@ export default function DoctorBooking() {
               onView={handleView}
             />
           ))}
-
-
-                  </div>
+        </div>
 
         {/* Empty State */}
         {filteredBookings.length === 0 && (
           <div className="mt-12 rounded-3xl border border-dashed border-slate-300 bg-white p-12 text-center shadow-sm">
-            <CalendarDays
-              size={56}
-              className="mx-auto mb-4 text-slate-300"
-            />
+            <CalendarDays size={56} className="mx-auto mb-4 text-slate-300" />
 
             <h2 className="text-2xl font-bold text-slate-700">
               No Appointments Found

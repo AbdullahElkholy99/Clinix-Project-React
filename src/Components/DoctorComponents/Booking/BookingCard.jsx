@@ -58,22 +58,22 @@ export default function BookingCard({
       <div className="mt-6 space-y-3 text-sm">
         <div className="flex items-center gap-3">
           <Building2 size={18} className="text-blue-600" />
-          <span>{booking.clinicName}</span>
+          <span className="text-black">{booking.clinicName}</span>
         </div>
 
         <div className="flex items-center gap-3">
           <CalendarDays size={18} className="text-blue-600" />
-          <span>{booking.date}</span>
+          <span className="text-black">{booking.date}</span>
         </div>
 
         <div className="flex items-center gap-3">
           <Clock3 size={18} className="text-blue-600" />
-          <span>{booking.time}</span>
+          <span className="text-black">{booking.time}</span>
         </div>
 
         <div className="flex items-center gap-3">
           <Phone size={18} className="text-blue-600" />
-          <span>{booking.phone}</span>
+          <span className="text-black">{booking.phone}</span>
         </div>
 
         <div className="flex items-start gap-3">
