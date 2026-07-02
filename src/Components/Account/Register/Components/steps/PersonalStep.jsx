@@ -64,7 +64,7 @@ export default function PersonalStep({ form, errors, handleChange }) {
           </div>
 
           {/* Email */}
-          <div>
+          <div className="sm:col-span-2">
             <label
               className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
               htmlFor="email"
@@ -122,7 +122,7 @@ export default function PersonalStep({ form, errors, handleChange }) {
           </div>
 
           {/* Phone */}
-          <div>
+          <div className="sm:col-span-2">
             <label
               className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
               htmlFor="phone"
@@ -176,6 +176,7 @@ export default function PersonalStep({ form, errors, handleChange }) {
               </p>
             )}
           </div>
+
         </div>
       </div>
     </>
