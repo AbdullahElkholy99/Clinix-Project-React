@@ -17,7 +17,9 @@ export default function AppRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/confirmEmail" element={<ConfirmEmail />} />
 
-
+        <Route element={<MainLayout/>}>
+          <Route path="/home" element={<Home />} />
+        </Route>  
 
       <Route path="/doctorManageAppointments/:id" element={<DoctorManageAppointments />} />
       <Route path="/doctorClinic" element={<DoctorClinic />} />
