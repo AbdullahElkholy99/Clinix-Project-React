@@ -31,6 +31,7 @@ export default function DoctorClinic() {
   useEffect(() => {
     const fetchClinics = async () => {
       const data = await getAllClinics();
+      console.log("Fetched clinics:", data); // Log the fetched clinics for debugging
       if (data) {
         setClinics(data);
       }
@@ -215,7 +216,6 @@ export default function DoctorClinic() {
                     setEditing(true);
                     setEditingId(clinic.id);
                     setOpenModal(true);
-                 
                   }}
                   className="flex-1 rounded-lg border border-slate-200 py-2 hover:bg-slate-50"
                 >
@@ -246,7 +246,7 @@ export default function DoctorClinic() {
           clinic={clinic}
           setClinic={setClinic}
           editing={editing}
-          saving = {saving}
+          saving={saving}
           onSave={saveClinic}
         />
       </div>

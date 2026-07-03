@@ -57,6 +57,7 @@ function Login() {
       toast.success("Logged in successfully.");
 
       const currentUser = getCurrentUser();
+      console.log(" Current User:", currentUser);
       console.log("Current User:", currentUser);
       if (currentUser && currentUser.role === "Admin") {
         navigate("/dashboard");
