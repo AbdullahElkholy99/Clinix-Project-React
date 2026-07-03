@@ -54,3 +54,13 @@ export const GetUserId = () => {
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
     ];
 }
+
+export const GetUserName = () => {
+    const token = getToken();
+
+    if (!token) return null;
+    const decoded = jwtDecode(token);
+    return decoded[
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+    ];
+}

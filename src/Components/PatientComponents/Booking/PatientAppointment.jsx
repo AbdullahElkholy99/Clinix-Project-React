@@ -14,13 +14,13 @@ import {
   Star,
 } from "lucide-react";
 
-import {getAllClinics} from '../../DoctorComponents/Services/clinic-service'
+// import {getAllClinics} from '../../DoctorComponents/Services/clinic-service'
 // ---------------------------------------------------------------------------
 // Mock data — swap for real API responses
 // ---------------------------------------------------------------------------
 
 const DOCTOR = {
-  name: "Dr. Amina Farouk",
+  name: "Dr. Abdullah Ali",
   specialty: "Cardiology",
   rating: 4.9,
   reviews: 214,
@@ -109,7 +109,7 @@ export default function PatientAppointment() {
 
   const clinic = useMemo(
     () => CLINICS.find((c) => c.id === clinicId) || null,
-    [clinicId]
+    [clinicId],
   );
 
   function chooseClinic(id) {
@@ -154,7 +154,11 @@ export default function PatientAppointment() {
         <Stepper stepIndex={stepIndex} />
 
         {stepIndex === 0 && (
-          <ClinicStep doctor={DOCTOR} clinics={CLINICS} onChoose={chooseClinic} />
+          <ClinicStep
+            doctor={DOCTOR}
+            clinics={CLINICS}
+            onChoose={chooseClinic}
+          />
         )}
 
         {stepIndex === 1 && clinic && (
@@ -234,11 +238,15 @@ function Stepper({ stepIndex }) {
                   (state === "done"
                     ? "border-[#0E7C7B] bg-[#0E7C7B] text-white"
                     : state === "active"
-                    ? "border-[#0E7C7B] bg-white text-[#0E7C7B]"
-                    : "border-[#D8E0E0] bg-white text-[#9AAAAA]")
+                      ? "border-[#0E7C7B] bg-white text-[#0E7C7B]"
+                      : "border-[#D8E0E0] bg-white text-[#9AAAAA]")
                 }
               >
-                {state === "done" ? <CheckCircle2 className="h-4 w-4" /> : i + 1}
+                {state === "done" ? (
+                  <CheckCircle2 className="h-4 w-4" />
+                ) : (
+                  i + 1
+                )}
               </div>
               <span
                 className={
@@ -292,7 +300,9 @@ function ClinicStep({ doctor, clinics, onChoose }) {
           >
             <CardContent className="flex items-center justify-between gap-4 p-4">
               <div className="min-w-0">
-                <p className="truncate font-semibold text-[#172227]">{c.name}</p>
+                <p className="truncate font-semibold text-[#172227]">
+                  {c.name}
+                </p>
                 <p className="mt-0.5 flex items-center gap-1 text-sm text-[#64777C]">
                   <MapPin className="h-3.5 w-3.5 shrink-0" />
                   {c.address} · {c.distanceKm} km away
@@ -467,7 +477,10 @@ function ConfirmStep({ doctor, clinic, slot, onBack, onConfirm }) {
           </p>
 
           <div className="space-y-4">
-            <Row label="Doctor" value={`${doctor.name} · ${doctor.specialty}`} />
+            <Row
+              label="Doctor"
+              value={`${doctor.name} · ${doctor.specialty}`}
+            />
             <Row label="Clinic" value={clinic.name} />
             <Row label="Address" value={clinic.address} />
             <Separator className="bg-[#E1E8E8]" />
