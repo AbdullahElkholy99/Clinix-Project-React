@@ -68,7 +68,7 @@ export default function DoctorAppointment() {
 
   return (
     <section className="min-h-screen bg-slate-50 py-10 transition-colors dark:bg-slate-950">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-11/12 px-6">
 
         <AppointmentHeader />
 
