@@ -7,6 +7,18 @@ import { BrowserRouter } from "react-router-dom";
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <App />
-    <Toaster />
+    <Toaster
+      position="top-right"
+      richColors
+      closeButton
+      toastOptions={{
+        duration: 3000,
+        style: {
+          borderRadius: "12px",
+          padding: "16px",
+          fontSize: "14px",
+        },
+      }}
+    />
   </BrowserRouter>,
 );

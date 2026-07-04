@@ -3,11 +3,7 @@ import { Building2, CheckCircle2, MapPin } from "lucide-react";
 import { Card, CardContent } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 
-export default function ClinicCard({
-  clinic,
-  selected,
-  onSelect,
-}) {
+export default function ClinicCard({ clinic, selected, onSelect }) {
   return (
     <Card
       onClick={() => onSelect(clinic)}
@@ -28,11 +24,9 @@ export default function ClinicCard({
       `}
     >
       <CardContent className="p-6">
-
         {/* Header */}
 
-        <div className="flex items-start justify-between">
-
+        <div className="flex items-center gap-7 ">
           <div
             className={`
               flex h-14 w-14 items-center justify-center rounded-2xl
@@ -46,34 +40,22 @@ export default function ClinicCard({
             <Building2 size={28} />
           </div>
 
-          {selected && (
-            <CheckCircle2
-              size={24}
-              className="text-green-500"
-            />
-          )}
+          {selected && <CheckCircle2 size={24} className="text-green-500" />}
 
+          {/* Clinic Name */}
+          <div className="text-xl font-bold text-slate-900 dark:text-white">
+            {clinic.clinicName}
+          </div>
         </div>
-
-        {/* Clinic Name */}
-
-        <h3 className="mt-6 text-xl font-bold text-slate-900 dark:text-white">
-          {clinic.clinicName}
-        </h3>
 
         {/* Address */}
 
         <div className="mt-3 flex items-start gap-2 text-slate-500 dark:text-slate-400">
-
-          <MapPin
-            size={16}
-            className="mt-1 shrink-0"
-          />
+          <MapPin size={16} className="mt-1 shrink-0" />
 
           <span>
             {clinic.city} • {clinic.area} • {clinic.street}
           </span>
-
         </div>
 
         {/* Price */}
@@ -92,7 +74,6 @@ export default function ClinicCard({
         >
           {selected ? "Selected Clinic" : "Select Clinic"}
         </Button>
-
       </CardContent>
     </Card>
   );

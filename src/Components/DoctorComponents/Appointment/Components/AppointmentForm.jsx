@@ -27,14 +27,19 @@ import {
 } from "lucide-react";
 
 export default function AppointmentForm({
+  mode = "create",
   selectedClinic,
+  initialData,
   loading,
   onSubmit,
+  onCancel,
 }) {
+  const isEdit = mode === "edit";
+
   const [formData, setFormData] = useState({
-    day: "",
-    openAt: "",
-    closedAt: "",
+    day: initialData?.day || "",
+    openAt: initialData?.openAt || "",
+    closedAt: initialData?.closedAt || "",
   });
 
   const updateField = (field, value) => {
@@ -61,6 +66,15 @@ export default function AppointmentForm({
       return;
     }
 
+    if (isEdit) {
+      onSubmit({
+        day: formData.day,
+        openAt: formData.openAt,
+        closedAt: formData.closedAt,
+      });
+      return;
+    }
+
     onSubmit({
       doctorClinicId: selectedClinic.id,
       day: formData.day,
@@ -74,6 +88,163 @@ export default function AppointmentForm({
       closedAt: "",
     });
   };
+
+  const formFields = (
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6"
+    >
+
+      <div className="space-y-2">
+
+        <Label>Day</Label>
+
+        <Select
+          value={formData.day}
+          onValueChange={(value) =>
+            updateField("day", value)
+          }
+        >
+          <SelectTrigger className="h-11 w-full">
+            <SelectValue placeholder="Select Working Day" />
+          </SelectTrigger>
+
+          <SelectContent>
+
+            {DAYS.map((day) => (
+
+              <SelectItem
+                key={day}
+                value={day}
+              >
+                {day}
+              </SelectItem>
+
+            ))}
+
+          </SelectContent>
+
+        </Select>
+
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+
+        <div className="space-y-2">
+
+          <Label className="flex items-center gap-2">
+
+            <Clock3 size={16} />
+
+            Opening Time
+
+          </Label>
+
+          <Select
+            value={formData.openAt}
+            onValueChange={(value) =>
+              updateField("openAt", value)
+            }
+          >
+            <SelectTrigger className="h-11 w-full">
+              <SelectValue placeholder="Select Opening Time" />
+            </SelectTrigger>
+
+            <SelectContent>
+
+              {TIME_OPTIONS.map((time) => (
+
+                <SelectItem
+                  key={time.value}
+                  value={time.value}
+                >
+                  {time.label}
+                </SelectItem>
+
+              ))}
+
+            </SelectContent>
+
+          </Select>
+
+        </div>
+
+        <div className="space-y-2">
+
+          <Label className="flex items-center gap-2">
+
+            <Clock3 size={16} />
+
+            Closing Time
+
+          </Label>
+
+          <Select
+            value={formData.closedAt}
+            onValueChange={(value) =>
+              updateField("closedAt", value)
+            }
+          >
+            <SelectTrigger className="h-11 w-full">
+              <SelectValue placeholder="Select Closing Time" />
+            </SelectTrigger>
+
+            <SelectContent>
+
+              {TIME_OPTIONS.map((time) => (
+
+                <SelectItem
+                  key={time.value}
+                  value={time.value}
+                >
+                  {time.label}
+                </SelectItem>
+
+              ))}
+
+            </SelectContent>
+
+          </Select>
+
+        </div>
+
+      </div>
+
+      <div className={isEdit ? "flex justify-end gap-3" : ""}>
+
+        {isEdit && (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onCancel}
+            disabled={loading}
+          >
+            Cancel
+          </Button>
+        )}
+
+        <Button
+          type="submit"
+          className={isEdit ? "" : "h-11 w-full"}
+          disabled={loading}
+        >
+          {loading
+            ? isEdit
+              ? "Saving Changes..."
+              : "Creating Appointment..."
+            : isEdit
+            ? "Save Changes"
+            : "Add Appointment"}
+        </Button>
+
+      </div>
+
+    </form>
+  );
+
+  if (isEdit) {
+    return formFields;
+  }
 
   return (
     <Card className="mt-10 border border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900">
@@ -117,137 +288,7 @@ export default function AppointmentForm({
 
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6"
-        >
-
-          <div className="space-y-2">
-
-            <Label>Day</Label>
-
-            <Select
-              value={formData.day}
-              onValueChange={(value) =>
-                updateField("day", value)
-              }
-            >
-              <SelectTrigger className="h-11 w-full">
-                <SelectValue placeholder="Select Working Day" />
-              </SelectTrigger>
-
-              <SelectContent>
-
-                {DAYS.map((day) => (
-
-                  <SelectItem
-                    key={day}
-                    value={day}
-                  >
-                    {day}
-                  </SelectItem>
-
-                ))}
-
-              </SelectContent>
-
-            </Select>
-
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-
-            <div className="space-y-2">
-
-              <Label className="flex items-center gap-2">
-
-                <Clock3 size={16} />
-
-                Opening Time
-
-              </Label>
-
-              <Select
-                value={formData.openAt}
-                onValueChange={(value) =>
-                  updateField("openAt", value)
-                }
-              >
-                <SelectTrigger className="h-11 w-full">
-                  <SelectValue placeholder="Select Opening Time" />
-                </SelectTrigger>
-
-                <SelectContent>
-
-                  {TIME_OPTIONS.map((time) => (
-
-                    <SelectItem
-                      key={time.value}
-                      value={time.value}
-                    >
-                      {time.label}
-                    </SelectItem>
-
-                  ))}
-
-                </SelectContent>
-
-              </Select>
-
-            </div>
-
-            <div className="space-y-2">
-
-              <Label className="flex items-center gap-2">
-
-                <Clock3 size={16} />
-
-                Closing Time
-
-              </Label>
-
-              <Select
-                value={formData.closedAt}
-                onValueChange={(value) =>
-                  updateField("closedAt", value)
-                }
-              >
-                <SelectTrigger className="h-11 w-full">
-                  <SelectValue placeholder="Select Closing Time" />
-                </SelectTrigger>
-
-                <SelectContent>
-
-                  {TIME_OPTIONS.map((time) => (
-
-                    <SelectItem
-                      key={time.value}
-                      value={time.value}
-                    >
-                      {time.label}
-                    </SelectItem>
-
-                  ))}
-
-                </SelectContent>
-
-              </Select>
-
-            </div>
-
-          </div>
-
-          <Button
-            type="submit"
-            className="h-11 w-full"
-            disabled={loading}
-          >
-            {loading
-              ? "Creating Appointment..."
-              : "Add Appointment"}
-          </Button>
-
-        </form>
+        {formFields}
 
       </CardContent>
 
