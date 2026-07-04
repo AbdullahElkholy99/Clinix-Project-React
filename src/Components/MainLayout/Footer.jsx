@@ -11,7 +11,7 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 
-export default function Footer() {
+export default function PatientFooter() {
   return (
     <footer className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
       <div className="container mx-auto px-6 py-12">

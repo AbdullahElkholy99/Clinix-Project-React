@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import {
   Bell,
   CalendarDays,
-  FlaskConical,
   Stethoscope,
   User,
 } from "lucide-react";
@@ -27,7 +26,7 @@ const navLinkClass = ({ isActive }) =>
   }`;
 
   
-export default function Navbar() {
+export default function PatientNavBar() {
 
  const navigate = useNavigate();
   const handleLogout = () => {
@@ -53,21 +52,16 @@ export default function Navbar() {
 
         {/* Links */}
         <nav className="hidden items-center gap-8 md:flex">
-          <NavLink to="/" className={navLinkClass}>
+          <NavLink to="/home" className={navLinkClass}>
             Home
           </NavLink>
 
-          <NavLink to="/doctors" className={navLinkClass}>
+          <NavLink to="/clinics" className={navLinkClass}>
             <Stethoscope size={18} />
-            Doctors
+            Clinics
           </NavLink>
 
-          <NavLink to="/labs" className={navLinkClass}>
-            <FlaskConical size={18} />
-            Labs
-          </NavLink>
-
-          <NavLink to="/appointments" className={navLinkClass}>
+          <NavLink to="/myAppointments" className={navLinkClass}>
             <CalendarDays size={18} />
             My Appointments
           </NavLink>
@@ -108,7 +102,7 @@ export default function Navbar() {
 
               <DropdownMenuItem asChild>
                 <Link
-                  to="/appointments"
+                  to="/myAppointments"
                   className="text-slate-700 dark:text-slate-300 focus:text-slate-900 dark:focus:text-white"
                 >
                   My Appointments

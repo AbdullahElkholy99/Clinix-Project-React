@@ -1,18 +1,24 @@
 import { Outlet } from 'react-router-dom';
-import NavBar from './Navbar'; 
-import Footer from './Footer'; 
+
+import PatientNavBar from './Navbar';
+import DocNavbar from '../DoctorComponents/Bases/NavBar/Navbar';
+import PatientFooter from './Footer';
+import DocFooter from '../HomeComponents/Footer/Footer';
 
 function MainLayout() {
+  const userRole = localStorage.getItem("userRole");
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       
-      <NavBar />
-
+      {userRole === 'Doctor' ? (<DocNavbar /> ) 
+      : (<PatientNavBar />)}
       <main className="flex-grow">
         <Outlet /> 
       </main>
       
-      <Footer/>
+      
+      {userRole === 'Doctor' ? (<DocFooter /> ) 
+      : (<PatientFooter />)}
     </div>
   );
 }

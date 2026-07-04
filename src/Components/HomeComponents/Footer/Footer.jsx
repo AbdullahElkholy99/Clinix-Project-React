@@ -15,7 +15,7 @@ const LINKS = [
 
 const currentYear = new Date().getFullYear();
 
-export default function Footer() {
+export default function DocFooter() {
   return (
     <footer className="border-t bg-white">
       <div className="mx-auto max-w-7xl px-6 py-12">

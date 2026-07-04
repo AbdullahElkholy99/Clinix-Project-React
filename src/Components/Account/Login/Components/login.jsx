@@ -52,6 +52,8 @@ function Login() {
 
     try {
       const response = await loginUser(form);
+      console.log(response);
+      
       localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.accessToken);
       localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, response.refreshToken);
       toast.success("Logged in successfully.");
@@ -59,9 +61,10 @@ function Login() {
       const currentUser = getCurrentUser();
       console.log(" Current User:", currentUser);
       console.log("Current User:", currentUser);
+       localStorage.setItem("userRole", currentUser.role);
       if (currentUser && currentUser.role === "Admin") {
         navigate("/dashboard");
-      } else if (currentUser && currentUser.role === "User") {
+      } else if (currentUser && currentUser.role === "Patient") {
         navigate("/home");
       } else if (currentUser && currentUser.role === "Doctor") {
         navigate("/doctorDashboard");

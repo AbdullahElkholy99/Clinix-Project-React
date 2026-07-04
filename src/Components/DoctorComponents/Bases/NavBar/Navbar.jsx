@@ -38,7 +38,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
+export default function DocNavbar() {
   const [loggingOut, setLoggingOut] = useState(false);
   const navigator = useNavigate();
 
